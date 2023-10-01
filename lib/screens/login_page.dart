@@ -7,6 +7,7 @@ import 'package:foss/redux/middleware.dart';
 import 'package:foss/redux/app_state.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'base_screen.dart';
+import 'package:foss/constants/color.dart';
 
 typedef FetchData = void Function();
 
@@ -72,8 +73,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("STUDENT"),
+        title: const Text(
+          "STUDENT",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
+        backgroundColor: kPrimaryColor,
+        foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -83,10 +91,10 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  "images/buyer.png",
-                  height: 200,
-                  width: 200,
+                Icon(
+                  Icons.three_p_rounded,
+                  size: 100,
+                  color: kPrimaryColor,
                 ),
                 const SizedBox(height: 50),
                 TextFormField(
@@ -125,61 +133,54 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 60),
-                StoreConnector<AppState, FetchData>(
-                    converter: (store) => () => store.dispatch(fetchData),
-                    builder: (_, fetchDataCallback) {
-                      return InkWell(
-                        onTap: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          await _logIn();
-                          print(sb.auth.currentUser);
-                          if (sb.auth.currentUser != null) {
-                            print('sucess');
-                            print('Iam going inside middleware');
-                            fetchDataCallback();
-                            print('Iam got out of middleware');
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const BaseScreen(),
+                isLoading
+                    ? CircularProgressIndicator()
+                    : isCompleted
+                        ? const Icon(
+                            Icons.check_circle_rounded,
+                            color: Colors.green,
+                            size: 45.0,
+                          )
+                        : InkWell(
+                            onTap: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await _logIn();
+                              print(sb.auth.currentUser);
+                              if (sb.auth.currentUser != null) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const BaseScreen(),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: isLoading || isCompleted
+                                    ? Colors.white.withOpacity(0)
+                                    : kPrimaryColor,
+                                borderRadius: BorderRadius.circular(5),
                               ),
-                            );
-                          }
-                        },
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: isLoading || isCompleted
-                                ? Colors.white
-                                : Colors.indigo,
-                            borderRadius: BorderRadius.circular(5),
+                              child: const Center(
+                                child: Text(
+                                  "Log In",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          child: isLoading
-                              ? CircularProgressIndicator()
-                              : isCompleted
-                                  ? const Icon(
-                                      Icons.check_circle_rounded,
-                                      color: Colors.green,
-                                      size: 45.0,
-                                    )
-                                  : const Center(
-                                      child: Text(
-                                        "Log In",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                        ),
-                      );
-                    }),
-                const SizedBox(height: 50),
-                Row(
+                const SizedBox(height: 30),
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     MouseRegion(
                       cursor: SystemMouseCursors.click,
@@ -193,8 +194,34 @@ class _LoginPageState extends State<LoginPage> {
                           );
                         },
                         child: const Text(
+                          "Forgot password",
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: kPrimaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SignupPage(),
+                            ),
+                          );
+                        },
+                        child: const Text(
                           "Create an account?",
-                          style: TextStyle(fontSize: 17),
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: kPrimaryColor,
+                          ),
                         ),
                       ),
                     ),

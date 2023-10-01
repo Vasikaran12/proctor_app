@@ -1,8 +1,10 @@
 import 'package:foss/constants/color.dart';
 import 'package:foss/constants/size.dart';
 import 'package:foss/widgets/circle_button.dart';
-import 'package:foss/screens/featuerd_screen.dart';
 import 'package:flutter/material.dart';
+import 'exam_screen.dart';
+import 'message_screen.dart';
+import 'profile_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);
@@ -13,20 +15,20 @@ class BaseScreen extends StatefulWidget {
 
 class _BaseScreenState extends State<BaseScreen> {
   int _index = 0;
-  
+
   List _list = [
     HomeScreen(),
     ExamScreen(),
     MessageScreen(),
     ProfileScreen(),
-  ]
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          HomeScreen(),
+          _list[_index],
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

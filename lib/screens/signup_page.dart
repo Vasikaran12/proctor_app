@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:foss/supabase/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:foss/constants/color.dart';
+import 'login_page.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -10,8 +12,14 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
+  final _fnameController = TextEditingController();
+  final _lnameController = TextEditingController();
+  final _rollController = TextEditingController();
+  final _regController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
+  final _cpassController = TextEditingController();
   bool passToggle = true;
   bool isLoading = false;
   bool isCompleted = false;
@@ -31,6 +39,13 @@ class _SignupPageState extends State<SignupPage> {
         email: email,
         password: password,
         emailRedirectTo: 'io.supabase.flutterquickstart://login-callback/',
+        data: {
+          'first_name': _fnameController.text,
+          'last_name': _lnameController.text,
+          'roll_number': _rollController.text,
+          'register_number': _regController.text,
+          'phone_number': _phoneController.text
+        },
       );
       setState(() {
         isLoading = false;
@@ -47,7 +62,6 @@ class _SignupPageState extends State<SignupPage> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(error.toString()),
       ));
-      print(123);
     } catch (error) {
       setState(() {
         isLoading = false;
@@ -55,7 +69,6 @@ class _SignupPageState extends State<SignupPage> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(error.toString()),
       ));
-      print(45);
     }
   }
 
@@ -63,8 +76,14 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("BUYER"),
+        title: const Text(
+          "STUDENT",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
+        backgroundColor: kPrimaryColor,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -74,12 +93,92 @@ class _SignupPageState extends State<SignupPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  "images/buyer.png",
-                  height: 200,
-                  width: 200,
+                Icon(
+                  Icons.three_p_rounded,
+                  size: 100,
+                  color: kPrimaryColor,
                 ),
                 const SizedBox(height: 50),
+                TextFormField(
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.name,
+                  controller: _fnameController,
+                  decoration: const InputDecoration(
+                    labelText: "First Name",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.align_horizontal_left),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.name,
+                  controller: _lnameController,
+                  decoration: const InputDecoration(
+                    labelText: "Last Name",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.align_horizontal_right),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.text,
+                  controller: _rollController,
+                  decoration: const InputDecoration(
+                    labelText: "Roll Number",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.pin_outlined),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.text,
+                  controller: _regController,
+                  decoration: const InputDecoration(
+                    labelText: "Register Number",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.numbers_rounded),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return 'Required';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.phone,
+                  controller: _phoneController,
+                  decoration: const InputDecoration(
+                    labelText: "Phone Number",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.phone),
+                  ),
+                ),
+                const SizedBox(height: 20),
                 TextFormField(
                   validator: (val) {
                     if (val == null || val.isEmpty) {
@@ -97,7 +196,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.visiblePassword,
                   controller: _passController,
                   obscureText: passToggle,
                   validator: (val) {
@@ -124,31 +223,60 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 60),
-                InkWell(
-                  onTap: () async {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    //_signUp();
+                const SizedBox(height: 20),
+                TextFormField(
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: _cpassController,
+                  obscureText: passToggle,
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return 'Required';
+                    }
+                    if (val.length < 6) {
+                      return '6 characters minimum';
+                    }
+                    return null;
                   },
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      color: isLoading || isCompleted
-                          ? Colors.white
-                          : Colors.indigo,
-                      borderRadius: BorderRadius.circular(5),
+                  decoration: InputDecoration(
+                    labelText: "Confirm Password",
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.lock),
+                    suffix: InkWell(
+                      onTap: () {
+                        setState(() {
+                          passToggle = !passToggle;
+                        });
+                      },
+                      child: Icon(
+                          passToggle ? Icons.visibility : Icons.visibility_off),
                     ),
-                    child: isLoading
-                        ? CircularProgressIndicator()
-                        : isCompleted
-                            ? const Icon(
-                                Icons.check_circle_rounded,
-                                color: Colors.green,
-                                size: 45.0,
-                              )
-                            : const Center(
+                  ),
+                ),
+                const SizedBox(height: 60),
+                isLoading
+                    ? CircularProgressIndicator()
+                    : isCompleted
+                        ? const Icon(
+                            Icons.check_circle_rounded,
+                            color: Colors.green,
+                            size: 45.0,
+                          )
+                        : InkWell(
+                            onTap: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              await _signUp();
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: isLoading || isCompleted
+                                    ? Colors.white.withOpacity(0)
+                                    : kPrimaryColor,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: const Center(
                                 child: Text(
                                   "Sign Up",
                                   style: TextStyle(
@@ -158,8 +286,8 @@ class _SignupPageState extends State<SignupPage> {
                                   ),
                                 ),
                               ),
-                  ),
-                ),
+                            ),
+                          ),
                 const SizedBox(height: 50),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -168,11 +296,16 @@ class _SignupPageState extends State<SignupPage> {
                       cursor: SystemMouseCursors.click,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushReplacementNamed('/login');
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
                         },
                         child: const Text(
                           "Already have an account?",
-                          style: TextStyle(fontSize: 17),
+                          style: TextStyle(fontSize: 17, color: kPrimaryColor),
                         ),
                       ),
                     ),
