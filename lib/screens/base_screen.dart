@@ -1,10 +1,12 @@
 import 'package:foss/constants/color.dart';
 import 'package:foss/constants/size.dart';
+import 'package:foss/supabase/constants.dart';
 import 'package:foss/widgets/circle_button.dart';
 import 'package:flutter/material.dart';
 import 'exam_screen.dart';
 import 'message_screen.dart';
 import 'profile_screen.dart';
+import 'package:intl/intl.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);
@@ -102,104 +104,138 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isPageLoading = true;
+
+  final user = sb.auth.currentUser!.userMetadata;
+  late String proctor;
+  int hr = DateTime.now().hour;
+
+  fetchData() async {
+    await sb.from('proctor').select().eq('mail_id', user!['proctor']);
+    setState(() {
+      isPageLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
-      height: MediaQuery.sizeOf(context).height / 3,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
-        ),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          stops: [0.1, 0.5],
-          colors: [
-            Color(0xff886ff2),
-            Color(0xff6849ef),
-          ],
-        ),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Hello Vasi 👋",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Text(
-                    "Good Morning 🌞",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+    return isPageLoading
+        ? Expanded(
+            child: Container(
+                color: Colors.white,
+                child: Center(
+                    child: Container(
+                  padding: const EdgeInsets.all(10),
+                  height: 30,
+                  child: const LinearProgressIndicator(),
+                ))),
+          )
+        : Container(
+            padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
+            height: MediaQuery.sizeOf(context).height / 3,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                stops: [0.1, 0.5],
+                colors: [
+                  Color(0xff886ff2),
+                  Color(0xff6849ef),
                 ],
               ),
-              CircleButton(
-                icon: Icons.notifications,
-                onPressed: () {},
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          Container(
-            padding: EdgeInsets.only(
-              top: 10,
-              bottom: 10,
-              left: 10,
             ),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: Column(
               children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  child: Text(
-                    "Proctor",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Hello ${user != null ? user!['first_name'] : ""} 👋",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Text(
+                          (hr >= 16)
+                              ? "Good Evening 🌥️"
+                              : (hr >= 12)
+                                  ? "Good Noon 🌞"
+                                  : "Good Morning 🌥️",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                      ],
                     ),
+                    CircleButton(
+                      icon: Icons.notifications,
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                Container(
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    bottom: 10,
+                    left: 10,
                   ),
                   decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   ),
-                ),
-                Flexible(
-                  child: Center(
-                    child: Text(
-                      "Dr. K. Indira",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          "Proctor",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
                       ),
-                    ),
+                      Flexible(
+                        child: Center(
+                          child: Text(
+                            "Dr. K. Indira",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 }

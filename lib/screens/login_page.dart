@@ -108,7 +108,9 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: "Email",
-                    border: OutlineInputBorder(),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
                     prefixIcon: Icon(Icons.email),
                   ),
                 ),
@@ -119,7 +121,9 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: passToggle,
                   decoration: InputDecoration(
                     labelText: "Password",
-                    border: const OutlineInputBorder(),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
                     prefixIcon: const Icon(Icons.lock),
                     suffix: InkWell(
                       onTap: () {
