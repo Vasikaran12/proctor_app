@@ -16,7 +16,6 @@ void main() async {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxb29qYnBiaWRzY2lrdW9yc2JkIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTQ5MTkzMDMsImV4cCI6MjAxMDQ5NTMwM30.irXm-ijqDE6mZhcdjed-4AVX0n1VhP1WaJCts0JF2gE',
     //authFlowType: AuthFlowType.pkce,
   );
-  sb.auth.signOut();
   runApp(MyApp());
 }
 
