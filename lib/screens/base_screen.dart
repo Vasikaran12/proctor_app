@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'exam_screen.dart';
 import 'message_screen.dart';
 import 'profile_screen.dart';
-import 'package:intl/intl.dart';
+import 'package:flip_card/flip_card.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);
@@ -241,7 +241,59 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                const Expanded(child: Center(child: Text("home"))),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(30),
+                        child: FlipCard(
+                          direction: FlipDirection.HORIZONTAL,
+                          side: CardSide.FRONT,
+                          speed: 1000,
+                          onFlipDone: (status) {
+                            print(status);
+                          },
+                          front: Container(
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Color(0xFF006666),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'ID Card',
+                                ),
+                                Text(
+                                  'Front',
+                                ),
+                              ],
+                            ),
+                          ),
+                          back: Container(
+                            padding: EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: Color(0xFF006666),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text('ID Card'),
+                                Text('Back'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           );
