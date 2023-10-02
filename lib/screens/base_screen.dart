@@ -1,5 +1,4 @@
 import 'package:foss/constants/color.dart';
-import 'package:foss/constants/size.dart';
 import 'package:foss/supabase/constants.dart';
 import 'package:foss/widgets/circle_button.dart';
 import 'package:flutter/material.dart';
@@ -12,13 +11,13 @@ class BaseScreen extends StatefulWidget {
   const BaseScreen({Key? key}) : super(key: key);
 
   @override
-  _BaseScreenState createState() => _BaseScreenState();
+  BaseScreenState createState() => BaseScreenState();
 }
 
-class _BaseScreenState extends State<BaseScreen> {
+class BaseScreenState extends State<BaseScreen> {
   int _index = 0;
 
-  List _list = [
+  final List _list = [
     const HomeScreen(),
     const ExamScreen(),
     const MessageScreen(),
@@ -38,48 +37,48 @@ class _BaseScreenState extends State<BaseScreen> {
           selectedItemColor: kPrimaryColor,
           backgroundColor: Colors.white,
           elevation: 0,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.home_filled,
-                size: kBottomNavigationBarItemSize,
+                size: 24,
               ),
               icon: Icon(
                 Icons.home_outlined,
-                size: kBottomNavigationBarItemSize,
+                size: 24,
               ),
               label: "Home",
             ),
             BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.article_rounded,
-                size: kBottomNavigationBarItemSize,
+                size: 24,
               ),
               icon: Icon(
                 Icons.article_outlined,
-                size: kBottomNavigationBarItemSize,
+                size: 24,
               ),
               label: "Exams",
             ),
             BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.message,
-                size: kBottomNavigationBarItemSize,
+                size: 24,
               ),
               icon: Icon(
                 Icons.message_outlined,
-                size: kBottomNavigationBarItemSize,
+                size: 24,
               ),
               label: "Message",
             ),
             BottomNavigationBarItem(
               activeIcon: Icon(
                 Icons.account_box_rounded,
-                size: kBottomNavigationBarItemSize,
+                size: 24,
               ),
               icon: Icon(
                 Icons.account_box_outlined,
-                size: kBottomNavigationBarItemSize,
+                size: 24,
               ),
               label: "Profile",
             ),
@@ -108,10 +107,35 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final user = sb.auth.currentUser!.userMetadata;
   late String proctor;
+  late String name;
   int hr = DateTime.now().hour;
 
   fetchData() async {
-    await sb.from('proctor').select().eq('mail_id', user!['proctor']);
+    var udata =
+        await sb.from('student').select('''*, proctor: proctor(name)''');
+    var list = List<Map<String, dynamic>>.from(udata);
+    if (list.isEmpty) {
+      try {
+        await sb.from('student').insert({
+          'first_name': user!['first_name'],
+          'last_name': user!['last_name'],
+          'roll_number': user!['roll_number'],
+          'register_number': user!['register_number'],
+          'phone_number': user!['phone_number'],
+          'email': sb.auth.currentUser!.email,
+          'proctor_id': user!['proctor'],
+        });
+        udata = await sb
+            .from('student')
+            .select('''first_name, proctor: proctor(name)''');
+        list = List<Map<String, dynamic>>.from(udata);
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+    }
+    name = list[0]['first_name'];
+    proctor = list[0]['proctor']['name'] as String;
+
     setState(() {
       isPageLoading = false;
     });
@@ -169,10 +193,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Hello ${user != null ? user!['first_name'] : ""} 👋",
+                                "Hello $name 👋",
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 12,
                               ),
                               Text(
@@ -226,7 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Flexible(
                               child: Center(
                                 child: Text(
-                                  "Dr. K. Indira",
+                                  proctor,
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,

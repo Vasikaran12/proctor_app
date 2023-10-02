@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:foss/supabase/constants.dart';
 import 'login_page.dart';
+import 'personal_info.dart';
+import 'academic_info.dart';
+import 'certificates.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -23,12 +26,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        padding: EdgeInsets.only(
-          left: 30,
-          right: 30,
-        ),
-        child: SingleChildScrollView(
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 30.0,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
@@ -44,84 +46,105 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 50,
               ),
               Divider(),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Personal Information',
-                    style: TextStyle(),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => PersonalInfo()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20.0,
                   ),
-                  Icon(Icons.keyboard_arrow_right),
-                ],
-              ),
-              SizedBox(
-                height: 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Personal Information',
+                      ),
+                      Icon(Icons.keyboard_arrow_right),
+                    ],
+                  ),
+                ),
               ),
               Divider(),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Academic Information',
-                    style: TextStyle(),
+
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AcademicInfo()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20.0,
                   ),
-                  Icon(Icons.keyboard_arrow_right),
-                ],
-              ),
-              SizedBox(
-                height: 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Academic Information',
+                      ),
+                      Icon(Icons.keyboard_arrow_right),
+                    ],
+                  ),
+                ),
               ),
               Divider(),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Certificates',
-                    style: TextStyle(),
+
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CertificatePage()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20.0,
                   ),
-                  Icon(Icons.keyboard_arrow_right),
-                ],
-              ),
-              SizedBox(
-                height: 20,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Certificates',
+                      ),
+                      Icon(Icons.keyboard_arrow_right),
+                    ],
+                  ),
+                ),
               ),
               Divider(),
-              SizedBox(
+              /*SizedBox(
                 height: 20,
-              ),
-              GestureDetector(
+              ),*/
+              InkWell(
                 onTap: () async {
                   await sb.auth.signOut();
                   if (sb.auth.currentSession == null) {
-                    Navigator.pushReplacement(context,
+                    Navigator.push(context,
                         MaterialPageRoute(builder: (context) => LoginPage()));
                   }
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Log Out',
-                      style: TextStyle(
-                        color: Colors.red,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Log Out',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
                       ),
-                    ),
-                    Icon(Icons.keyboard_arrow_right),
-                  ],
+                      Icon(Icons.keyboard_arrow_right),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              // SizedBox(
+              //   height: 20,
+              // ),
               Divider(),
             ],
           ),

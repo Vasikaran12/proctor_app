@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:foss/supabase/constants.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:foss/screens/signup_page.dart';
-import 'package:foss/redux/middleware.dart';
-import 'package:foss/redux/app_state.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'base_screen.dart';
 import 'package:foss/constants/color.dart';
+import 'base_screen.dart';
 
 typedef FetchData = void Function();
 

@@ -33,8 +33,6 @@ class _SignupPageState extends State<SignupPage> {
     try {
       final data = await sb.from('proctor').select();
       _list = List<Map<String, dynamic>>.from(data);
-      print('sucess');
-      print(_list);
     } catch (e) {
       print(e.toString());
     }
@@ -72,6 +70,7 @@ class _SignupPageState extends State<SignupPage> {
           'roll_number': _rollController.text,
           'register_number': _regController.text,
           'phone_number': _phoneController.text,
+          'email': _emailController.text,
           'proctor': _dropdownvalue,
         },
       );
@@ -255,6 +254,9 @@ class _SignupPageState extends State<SignupPage> {
                         value: _dropdownvalue,
                         icon: null,
                         decoration: const InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                          ),
                           labelText: "Proctor",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
