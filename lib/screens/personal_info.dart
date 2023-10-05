@@ -23,7 +23,30 @@ class _PersonalInfoState extends State<PersonalInfo> {
   TextEditingController _phonecontroller = TextEditingController();
   TextEditingController _emailcontroller = TextEditingController();
   TextEditingController _proctorcontroller = TextEditingController();
-
+  TextEditingController _dobcontroller = TextEditingController();
+  TextEditingController _gendercontroller = TextEditingController();
+  TextEditingController _relcontroller = TextEditingController();
+  TextEditingController _comcontroller = TextEditingController();
+  TextEditingController _castecontroller = TextEditingController();
+  TextEditingController _aadharcontroller = TextEditingController();
+  TextEditingController _bloodcontroller = TextEditingController();
+  TextEditingController _paddresscontroller = TextEditingController();
+  TextEditingController _caddresscontroller = TextEditingController();
+  TextEditingController _nationcontroller = TextEditingController();
+  TextEditingController _statecontroller = TextEditingController();
+  TextEditingController _mothernamecontroller = TextEditingController();
+  TextEditingController _fathernamecontroller = TextEditingController();
+  TextEditingController _fatherocccontroller = TextEditingController();
+  TextEditingController _motherocccontroller = TextEditingController();
+  TextEditingController _parentnumcontroller = TextEditingController();
+  TextEditingController _guardiannumcontroller = TextEditingController();
+  TextEditingController _annualinccontroller = TextEditingController();
+  TextEditingController _frstgrdcontroller = TextEditingController();
+  TextEditingController _busernamecontroller = TextEditingController();
+  TextEditingController _bnamecontroller = TextEditingController();
+  TextEditingController _branchnamecontroller = TextEditingController();
+  TextEditingController _accnocontroller = TextEditingController();
+  TextEditingController _ifsccontroller = TextEditingController();
   fetchData() async {
     try {
       final udata =
@@ -36,6 +59,52 @@ class _PersonalInfoState extends State<PersonalInfo> {
       _phonecontroller.text = list[0]['phone_number'];
       _emailcontroller.text = list[0]['email'];
       _proctorcontroller.text = list[0]['proctor']['name'];
+      _dobcontroller.text = list[0]['dob'] != null ? list[0]['dob'] : "";
+      _gendercontroller.text =
+          list[0]['gender'] != null ? list[0]['gender'] : "";
+      _relcontroller.text =
+          list[0]['religion'] != null ? list[0]['religion'] : "";
+      _comcontroller.text =
+          list[0]['community'] != null ? list[0]['community'] : "";
+      _castecontroller.text = list[0]['caste'] != null ? list[0]['caste'] : "";
+      _aadharcontroller.text =
+          list[0]['aadhar'] != null ? list[0]['aadhar'] : "";
+      _bloodcontroller.text =
+          list[0]['blood_group'] != null ? list[0]['blood_group'] : "";
+      _paddresscontroller.text =
+          list[0]['p_address'] != null ? list[0]['p_address'] : "";
+      _caddresscontroller.text =
+          list[0]['c_address'] != null ? list[0]['c_address'] : "";
+      _nationcontroller.text =
+          list[0]['nationality'] != null ? list[0]['nationality'] : "";
+      _statecontroller.text = list[0]['state'] != null ? list[0]['state'] : "";
+      _fathernamecontroller.text =
+          list[0]['father_name'] != null ? list[0]['father_name'] : "";
+      _mothernamecontroller.text =
+          list[0]['mother_name'] != null ? list[0]['mother_name'] : "";
+      _fatherocccontroller.text = list[0]['father_occupation'] != null
+          ? list[0]['father_occupation']
+          : "";
+      _motherocccontroller.text = list[0]['mother_occupation'] != null
+          ? list[0]['mother_occupation']
+          : "";
+      _parentnumcontroller.text =
+          list[0]['parent_number'] != null ? list[0]['parent_number'] : "";
+      _guardiannumcontroller.text =
+          list[0]['guardian_name'] != null ? list[0]['guardian_name'] : "";
+      _annualinccontroller.text =
+          list[0]['annual_income'] != null ? list[0]['annual_income'] : "";
+      _frstgrdcontroller.text =
+          list[0]['first_grad'] != null ? list[0]['first_grad'] : "";
+      _busernamecontroller.text =
+          list[0]['bank_username'] != null ? list[0]['bank_username'] : "";
+      _bnamecontroller.text =
+          list[0]['bank_name'] != null ? list[0]['bank_name'] : "";
+      _branchnamecontroller.text =
+          list[0]['branch_name'] != null ? list[0]['branch_name'] : "";
+      _accnocontroller.text =
+          list[0]['account_number'] != null ? list[0]['account_number'] : "";
+      _ifsccontroller.text = list[0]['ifsc'] != null ? list[0]['ifsc'] : "";
 
       setState(() {
         isPageLoading = false;
@@ -65,7 +134,30 @@ class _PersonalInfoState extends State<PersonalInfo> {
         'roll_number': _rollcontroller.text,
         'register_number': _regcontroller.text,
         'phone_number': _phonecontroller.text,
-        'email': _emailcontroller.text,
+        'dob': _dobcontroller.text,
+        'gender': _gendercontroller.text,
+        'religion': _relcontroller.text,
+        'community': _comcontroller.text,
+        'caste': _castecontroller.text,
+        'aadhar': _aadharcontroller.text,
+        'blood_group': _bloodcontroller.text,
+        'p_address': _paddresscontroller.text,
+        'c_address': _caddresscontroller.text,
+        'nationality': _nationcontroller.text,
+        'state': _statecontroller.text,
+        'father_name': _fathernamecontroller.text,
+        'mother_name': _mothernamecontroller.text,
+        'father_occupation': _fatherocccontroller.text,
+        'mother_occupation': _motherocccontroller.text,
+        'parent_number': _parentnumcontroller.text,
+        'guardian_name': _guardiannumcontroller.text,
+        'annual_income': _annualinccontroller.text,
+        'first_grad': _frstgrdcontroller.text,
+        'bank_username': _busernamecontroller.text,
+        'bank_name': _bnamecontroller.text,
+        'branch_name': _branchnamecontroller.text,
+        'account_number': _accnocontroller.text,
+        'ifsc': _ifsccontroller.text,
       }).match({'uid': sb.auth.currentUser!.id});
     } catch (e) {
       print(e.toString());
@@ -183,6 +275,181 @@ class _PersonalInfoState extends State<PersonalInfo> {
                       controller: _proctorcontroller,
                       tit: TextInputType.name,
                       editable: false,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'DOB',
+                      controller: _dobcontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Gender',
+                      controller: _gendercontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Religion',
+                      controller: _relcontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Community',
+                      controller: _comcontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Gender',
+                      controller: _gendercontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Caste',
+                      controller: _castecontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Aadhar Number',
+                      controller: _aadharcontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Blood Group',
+                      controller: _bloodcontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.add_location_alt,
+                      label: 'Permanent Address',
+                      controller: _paddresscontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.add_location_alt_outlined,
+                      label: 'Communication Address',
+                      controller: _caddresscontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Nationality',
+                      controller: _nationcontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'State',
+                      controller: _statecontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Mother Name',
+                      controller: _mothernamecontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Father Name',
+                      controller: _fathernamecontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Mother Occupation',
+                      controller: _motherocccontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Father Occupation',
+                      controller: _fatherocccontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Parent Mobile Number',
+                      controller: _parentnumcontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Guardian Number',
+                      controller: _guardiannumcontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Annual Income',
+                      controller: _annualinccontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'First Graduate',
+                      controller: _frstgrdcontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_box,
+                      label: 'Bank Username',
+                      controller: _busernamecontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_balance,
+                      label: 'Bank Name',
+                      controller: _bnamecontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_balance_outlined,
+                      label: 'Branch Name',
+                      controller: _branchnamecontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.account_balance_wallet_outlined,
+                      label: 'Account Number',
+                      controller: _accnocontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
+                    ),
+                    InfoBox(
+                      icon: Icons.attach_money_outlined,
+                      label: 'IFSC Number',
+                      controller: _ifsccontroller,
+                      tit: TextInputType.name,
+                      editable: editable,
                     ),
                     SizedBox(height: 40),
                     isLoading
